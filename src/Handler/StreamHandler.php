@@ -118,7 +118,9 @@ class StreamHandler
             }
         }
 
-        if ($sink !== $stream) {
+        // Do not drain when the request is a HEAD request because they have
+        // no body.
+        if ($sink !== $stream && strcasecmp('HEAD', $request->getMethod())) {
             $this->drain(
                 $stream,
                 $sink,
